@@ -65,7 +65,7 @@ public class ItemRepository {
      * Получение всех предметов.
      */
     public List<Item> getAll(Long userId) {
-        return repository.values().stream().filter(i -> i.getOwner() == userId).collect(Collectors.toList());
+        return repository.values().stream().filter(i -> i.getOwner().equals(userId)).collect(Collectors.toList());
     }
 
     /**
