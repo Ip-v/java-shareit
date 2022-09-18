@@ -1,0 +1,24 @@
+package ru.practicum.shareit.user;
+
+import lombok.*;
+import ru.practicum.shareit.Create;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+/**
+ * DTO Пользователей
+ */
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@AllArgsConstructor
+public class UserDto {
+    private Long id;
+    @NotBlank(groups = {Create.class})
+    private String name;
+    @Email(groups = {Create.class})
+    @NotBlank(groups = {Create.class})
+    private String email;
+}
