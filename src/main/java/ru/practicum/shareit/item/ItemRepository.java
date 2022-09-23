@@ -2,8 +2,8 @@ package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.practicum.shareit.ItemAccessDeniedException;
-import ru.practicum.shareit.ItemNotFoundException;
+import ru.practicum.shareit.exceptions.ItemAccessDeniedException;
+import ru.practicum.shareit.exceptions.ItemNotFoundException;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.HashMap;
