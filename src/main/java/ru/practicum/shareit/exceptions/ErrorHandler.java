@@ -1,6 +1,7 @@
 package ru.practicum.shareit.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,7 +28,7 @@ public class ErrorHandler {
      */
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse notFound(final ItemNotFoundException e) {
+    public ErrorResponse notFound(final NotFoundException e) {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
@@ -36,18 +37,59 @@ public class ErrorHandler {
      * Нет доступа
      */
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse accessDenied(final ItemAccessDeniedException e) {
+        log.warn(e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse accessDenied(final CommentAccessDeniedException e) {
+        log.warn(e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse validationException(final DataIntegrityViolationException e) {
+        log.warn(e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse accessDenied(final BookingChangeStatusAfterApproveException e) {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse restExcpetion(final Throwable e) {
+    public ErrorResponse bookingNotAvailable(final ItemNotAvailableException e) {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse unsupportedStatus(final UnknownStateException e) {
+        log.warn(e.getMessage());
+        return new ErrorResponse("Unknown state: UNSUPPORTED_STATUS");
+    }
+
+//
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    public ErrorResponse validationException2(final ConstraintViolationException e) {
+//        log.warn(e.getMessage());
+//        return new ErrorResponse(e.getMessage());
+//    }
+
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ErrorResponse restException(final Throwable e) {
+//        log.warn(e.getMessage());
+//        return new ErrorResponse(e.getMessage());
+//    }
 
 
 }
