@@ -42,6 +42,7 @@ public class ErrorHandler {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
+
     /**
      * Нет доступа
      */
@@ -51,6 +52,7 @@ public class ErrorHandler {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
+
     /**
      * Ошибка валидации
      */
@@ -60,6 +62,7 @@ public class ErrorHandler {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
+
     /**
      * Нет доступа
      */
@@ -69,6 +72,7 @@ public class ErrorHandler {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
+
     /**
      * Нет доступа
      */
@@ -78,6 +82,7 @@ public class ErrorHandler {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
+
     /**
      * Неверный статус
      */

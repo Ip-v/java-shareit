@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ru.practicum.shareit.booking.model.Booking;
+
 /**
  * DTO комментария
  */
