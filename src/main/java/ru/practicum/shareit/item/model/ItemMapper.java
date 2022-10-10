@@ -33,12 +33,14 @@ public class ItemMapper {
                 itemDto.getName(),
                 itemDto.getDescription(),
                 itemDto.getAvailable(),
-                new User(itemDto.getOwner(),null,null),
+                new User(itemDto.getOwner(), null, null),
                 itemDto.getRequest()
         );
     }
-
-    public static ItemInfoDto ItemInfoDto(Item item) {
+    /**
+     * Item -> ItemInfoDto
+     */
+    public static ItemInfoDto itemInfoDto(Item item) {
         return new ItemInfoDto(item.getId(),
                 item.getName(),
                 item.getDescription(),

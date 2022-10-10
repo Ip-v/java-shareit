@@ -6,13 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingInfoDto;
 import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.model.BookingMapper;
+import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.exceptions.BookingChangeStatusAfterApproveException;
 import ru.practicum.shareit.exceptions.ItemAccessDeniedException;
 import ru.practicum.shareit.exceptions.ItemNotAvailableException;
 import ru.practicum.shareit.exceptions.NotFoundException;
-import ru.practicum.shareit.item.ItemRepository;
+import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.model.User;
@@ -23,28 +23,31 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Cервис бронирований
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class BookingServiceImpl implements BookingService{
+public class BookingServiceImpl implements BookingService {
     private final BookingRepository repository;
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
 
     @Override
     @Transactional
-    public BookingDto create(long userId, BookingDto dto) {
+    public BookingDto create(long userId, BookingDto bookingDto) {
         final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден с ИД " + userId));
-        final Item item = itemRepository.findById(dto.getItemId())
-                .orElseThrow(() -> new NotFoundException("Предмет не найден с ИД " + dto.getItemId()));
+        final Item item = itemRepository.findById(bookingDto.getItemId())
+                .orElseThrow(() -> new NotFoundException("Предмет не найден с ИД " + bookingDto.getItemId()));
         if (!item.getIsAvailable()) {
-           throw new ItemNotAvailableException("Предмет не доступен для бронирования ИД " + dto.getItemId());
+            throw new ItemNotAvailableException("Предмет не доступен для бронирования ИД " + bookingDto.getItemId());
         }
         if (item.getOwner().getId() == userId) {
             throw new ItemAccessDeniedException("Доступ к бронированию запрещен");
         }
-        final Booking booking = BookingMapper.toBooking(dto);
+        final Booking booking = BookingMapper.toBooking(bookingDto);
         booking.setBooker(user);
         booking.setStatus(BookingStatus.WAITING);
         final Booking save = repository.save(booking);
@@ -197,7 +200,7 @@ public class BookingServiceImpl implements BookingService{
 
     @Override
     @Transactional
-    public BookingInfoDto approveBooking(long userId, Long bookingId, boolean approved)  {
+    public BookingInfoDto approveBooking(long userId, Long bookingId, boolean approved) {
         final Booking booking = repository.findById(bookingId)
                 .orElseThrow(() -> new NotFoundException("Бронирование не найдено ИД " + bookingId));
         if (booking.getStatus().equals(BookingStatus.APPROVED)) {

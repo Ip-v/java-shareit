@@ -1,7 +1,9 @@
 package ru.practicum.shareit.item.model;
 
 import ru.practicum.shareit.item.dto.CommentDto;
-
+/**
+ * Маппер комментария
+ */
 public class CommentMapper {
     public static Comment toComment(CommentDto commentDto) {
         return new Comment(

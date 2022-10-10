@@ -1,10 +1,3 @@
-drop table bookings;
-drop table requests;
-drop table comments;
-drop table items;
-drop table users;
-
-
 create table if not exists users
 (
     user_id    bigint generated always as identity (maxvalue 2147483647)
@@ -16,7 +9,7 @@ create table if not exists users
             unique
 );
 
-create table items
+create table if not exists items
 (
     item_id          bigint generated always as identity (maxvalue 2147483647)
         primary key,
@@ -29,12 +22,7 @@ create table items
     request_id       bigint
 );
 
-alter table items
-    owner to postgres;
-
-
-
-create table bookings
+create table if not exists bookings
 (
     booking_id bigint generated always as identity (maxvalue 2147483647)
         constraint bookings_pk
@@ -51,11 +39,6 @@ create table bookings
     status     varchar(50)
 );
 
-alter table bookings
-    owner to postgres;
-
-
-
 create table if not exists requests
 (
     request_id   bigint generated always as identity (maxvalue 2147483647)
@@ -69,7 +52,7 @@ create table if not exists requests
 );
 
 
-create table comments
+create table if not exists comments
 (
     comment_id   bigint generated always as identity (maxvalue 2147483647)
         constraint comments_pk
@@ -79,12 +62,3 @@ create table comments
     author_id    bigint,
     created      timestamp
 );
-
-alter table comments
-    owner to postgres;
-
-
-
-
-
-

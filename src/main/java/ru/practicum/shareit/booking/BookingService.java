@@ -1,7 +1,7 @@
 package ru.practicum.shareit.booking;
 
-import ru.practicum.shareit.booking.dto.BookingInfoDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.dto.BookingInfoDto;
 import ru.practicum.shareit.booking.model.BookingStatus;
 
 import java.util.List;
@@ -14,12 +14,12 @@ public interface BookingService {
     /**
      * Создать новый
      */
-    BookingDto create(long userId, BookingDto BookingDto);
+    BookingDto create(long userId, BookingDto bookingDto);
 
     /**
      * Обновить существующий
      */
-    BookingDto update(long userId, Long itemId, BookingDto BookingDto);
+    BookingDto update(long userId, Long itemId, BookingDto bookingDto);
 
     /**
      * Поулчить по ИД

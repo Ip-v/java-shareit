@@ -42,54 +42,49 @@ public class ErrorHandler {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
+    /**
+     * Нет доступа
+     */
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse accessDenied(final CommentAccessDeniedException e) {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
-
+    /**
+     * Ошибка валидации
+     */
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse validationException(final DataIntegrityViolationException e) {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
+    /**
+     * Нет доступа
+     */
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse accessDenied(final BookingChangeStatusAfterApproveException e) {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
-
+    /**
+     * Нет доступа
+     */
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse bookingNotAvailable(final ItemNotAvailableException e) {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
-
+    /**
+     * Неверный статус
+     */
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse unsupportedStatus(final UnknownStateException e) {
         log.warn(e.getMessage());
         return new ErrorResponse("Unknown state: UNSUPPORTED_STATUS");
     }
-
-//
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    public ErrorResponse validationException2(final ConstraintViolationException e) {
-//        log.warn(e.getMessage());
-//        return new ErrorResponse(e.getMessage());
-//    }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse restException(final Throwable e) {
-//        log.warn(e.getMessage());
-//        return new ErrorResponse(e.getMessage());
-//    }
-
-
 }

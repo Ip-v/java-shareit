@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.booking.dto.BookingInfoDto;
 import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.dto.BookingInfoDto;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.exceptions.UnknownStateException;
 import ru.practicum.shareit.utils.Create;
@@ -13,7 +13,7 @@ import ru.practicum.shareit.utils.Create;
 import java.util.List;
 
 /**
- * TODO Sprint add-bookings.
+ * Контроллер бронирования
  */
 @Slf4j
 @RestController
@@ -24,7 +24,7 @@ public class BookingController {
 
     @PostMapping
     public BookingDto create(@RequestHeader("X-Sharer-User-Id") long userId,
-                             @RequestBody @Validated({Create.class})BookingDto bookingDto) {
+                             @RequestBody @Validated({Create.class}) BookingDto bookingDto) {
         log.info("Создание BookingDto {}", bookingDto);
         return service.create(userId, bookingDto);
     }
@@ -36,19 +36,6 @@ public class BookingController {
         log.info("Обновление бронирования {} пользователем {}", bookingId, approved);
         return service.approveBooking(userId, bookingId, approved);
     }
-
-//    @GetMapping(value = "/owner")
-//    public List<BookingInfoDto> getOwnerBookings(@RequestHeader("X-Sharer-User-Id") long userId,
-//                                           @PathVariable(name = "bookingId") Long bookingId,
-//                                           @RequestParam(name = "state", defaultValue = "ALL") String state) {
-//        log.info("Запрос бронирования пользователем {} ИД {}", userId, bookingId);
-//        try {
-//            BookingStatus status = BookingStatus.valueOf(state);
-//            return service.getBookingById(userId, status);
-//        } catch (IllegalArgumentException e) {
-//            throw new IllegalArgumentException("Unknown state: " + state);
-//        }
-//    }
 
     @GetMapping(value = "/owner")
     public List<BookingInfoDto> getOwnerBookings(@RequestHeader("X-Sharer-User-Id") long userId,

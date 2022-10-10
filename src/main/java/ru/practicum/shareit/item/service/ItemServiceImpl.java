@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -7,12 +7,14 @@ import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exceptions.ItemAccessDeniedException;
 import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.item.repository.CommentRepository;
+import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.ItemInfoDto;
 import ru.practicum.shareit.item.dto.ItemWithBookingDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.CommentMapper;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.item.dto.ItemInfoDto;
 import ru.practicum.shareit.item.model.ItemMapper;
 import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -78,7 +80,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemInfoDto get(Long userId, Long itemId) {
         Item item = repository.findById(itemId).orElseThrow(() ->
                 new NotFoundException("Предмет не найден ИД " + itemId));
-        ItemInfoDto itemInfoDto = ItemMapper.ItemInfoDto(item);
+        ItemInfoDto itemInfoDto = ItemMapper.itemInfoDto(item);
         if (item.getOwner().getId().equals(userId)) {
             getBookingsDates(itemInfoDto);
         }
@@ -124,7 +126,7 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemInfoDto> getAll(Long userId) {
         List<ItemInfoDto> items = repository.findAll().stream()
                 .filter(item -> item.getOwner().getId().equals(userId))
-                .map(ItemMapper::ItemInfoDto)
+                .map(ItemMapper::itemInfoDto)
                 .collect(Collectors.toList());
         for (ItemInfoDto i : items) {
             getBookingsDates(i);

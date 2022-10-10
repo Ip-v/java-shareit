@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.service;
 
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemInfoDto;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Интерфейс службы предметов аренды
  */
-public interface ItemService  {
+public interface ItemService {
     /**
      * Создать новый
      */

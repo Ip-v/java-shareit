@@ -6,7 +6,7 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 /**
- * Mapper Bookings
+ * Маппер бронирования
  */
 public class BookingMapper {
     /**
@@ -25,7 +25,7 @@ public class BookingMapper {
      * Booking -> BookingInfoDto
      */
     public static BookingInfoDto toBookingInfoDto(Booking b) {
-        return new BookingInfoDto(b.getId(), b.getStart(), b.getEnd(),b.getBooker(), b.getItem(), b.getStatus());
+        return new BookingInfoDto(b.getId(), b.getStart(), b.getEnd(), b.getBooker(), b.getItem(), b.getStatus());
     }
 
     /**

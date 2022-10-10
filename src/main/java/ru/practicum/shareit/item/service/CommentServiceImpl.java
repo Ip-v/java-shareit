@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -6,8 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.exceptions.CommentAccessDeniedException;
-import ru.practicum.shareit.exceptions.ItemAccessDeniedException;
 import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.item.repository.CommentRepository;
+import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.CommentMapper;
@@ -17,6 +18,9 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 
+/**
+ * Сервис комментариев
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -37,10 +41,10 @@ public class CommentServiceImpl implements CommentService {
                     itemId));
         }
 
-        User user = userRepository.findById(userId) .orElseThrow(() ->
+        User user = userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException(String.format("Пользователь %d не найден", userId)));
         Item item = itemRepository.findById(itemId).orElseThrow(() ->
-                new NotFoundException( String.format("Предмет %d не найден ИД", itemId)));
+                new NotFoundException(String.format("Предмет %d не найден ИД", itemId)));
 
         Comment comment = CommentMapper.toComment(commentDto);
         comment.setItem(item);
