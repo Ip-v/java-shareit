@@ -25,7 +25,8 @@ public class BookingMapper {
      * Booking -> BookingInfoDto
      */
     public static BookingInfoDto toBookingInfoDto(Booking b) {
-        return new BookingInfoDto(b.getId(), b.getStart(), b.getEnd(), b.getBooker(), b.getItem(), b.getStatus());
+        return new BookingInfoDto(b.getId(), b.getStart(), b.getEnd(), b.getBooker(),
+                new BookingInfoDto.ItemInfo(b.getItem()), b.getStatus());
     }
 
     /**

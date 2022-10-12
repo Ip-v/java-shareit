@@ -11,7 +11,6 @@ import ru.practicum.shareit.item.repository.CommentRepository;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemInfoDto;
-import ru.practicum.shareit.item.dto.ItemWithBookingDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.CommentMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -27,6 +26,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static ru.practicum.shareit.item.dto.ItemInfoDto.*;
 
 /**
  * Сервис предметов
@@ -82,7 +83,7 @@ public class ItemServiceImpl implements ItemService {
                 new NotFoundException("Предмет не найден ИД " + itemId));
         ItemInfoDto itemInfoDto = ItemMapper.itemInfoDto(item);
         if (item.getOwner().getId().equals(userId)) {
-            getBookingsDates(itemInfoDto);
+            addBookingsDates(itemInfoDto);
         }
         List<Comment> comments = commentRepository.findAllByItemId(itemId);
         if (!comments.isEmpty()) {
@@ -113,15 +114,6 @@ public class ItemServiceImpl implements ItemService {
         throw new NotFoundException("Предмет не найден ИД " + itemId);
     }
 
-//    @Override
-//    public List<ItemDto> getAll(Long userId) {
-//        List<ItemDto> items = new ArrayList<>();
-//        repository.findAll().stream()
-//                .filter(item -> item.getOwner().getId().equals(userId))
-//                .forEach(item -> items.add(ItemMapper.toItemDto(item)));
-//        return items;
-//    }
-
     @Override
     public List<ItemInfoDto> getAll(Long userId) {
         List<ItemInfoDto> items = repository.findAll().stream()
@@ -129,29 +121,23 @@ public class ItemServiceImpl implements ItemService {
                 .map(ItemMapper::itemInfoDto)
                 .collect(Collectors.toList());
         for (ItemInfoDto i : items) {
-            getBookingsDates(i);
-//            List<Comment> comments = commentRepository.findAllByItemId(i.getId());
-//            if (!comments.isEmpty()) {
-//                i.setComments(comments
-//                        .stream().map(CommentMapper::toCommentDto)
-//                        .collect(Collectors.toList()));
-//            }
+            addBookingsDates(i);
         }
         items.sort(Comparator.comparing(ItemInfoDto::getId));
         return items;
     }
 
-    private void getBookingsDates(ItemInfoDto item) {
+    private void addBookingsDates(ItemInfoDto item) {
         List<Booking> lastBookings = bookingRepository
                 .findBookingsByItemIdAndEndIsBeforeOrderByEndDesc(item.getId(),
                         LocalDateTime.now());
         if (!lastBookings.isEmpty()) {
-            item.setLastBooking(new ItemWithBookingDto(lastBookings.get(0)));
+            item.setLastBooking(new BookingInfo(lastBookings.get(0)));
         }
         List<Booking> nextBookings = bookingRepository
                 .findBookingsByItemIdAndStartIsAfterOrderByStartDesc(item.getId(), LocalDateTime.now());
         if (!nextBookings.isEmpty()) {
-            item.setNextBooking(new ItemWithBookingDto(nextBookings.get(0)));
+            item.setNextBooking(new BookingInfo(nextBookings.get(0)));
         }
     }
 }

@@ -20,6 +20,17 @@ public class BookingInfoDto {
     private LocalDateTime start;
     private LocalDateTime end;
     private User booker;
-    private Item item;
+    private ItemInfo item;
     private BookingStatus status;
+
+    @Getter
+    public static class ItemInfo {
+        private final Long id;
+        private final String name;
+
+        public ItemInfo(Item item) {
+            this.id = item.getId();
+            this.name = item.getName();
+        }
+    }
 }

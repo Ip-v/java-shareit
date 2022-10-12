@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ru.practicum.shareit.booking.dto.BookingInfoDto.*;
+
 /**
  * Cервис бронирований
  */
@@ -213,7 +215,7 @@ public class BookingServiceImpl implements BookingService {
         }
         booking.setStatus(approved ? BookingStatus.APPROVED : BookingStatus.REJECTED);
         Booking save = repository.save(booking);
-        return new BookingInfoDto(save.getId(), save.getStart(), save.getEnd(), save.getBooker(), save.getItem(),
-                save.getStatus());
+        return new BookingInfoDto(save.getId(), save.getStart(), save.getEnd(), save.getBooker(),
+                new ItemInfo(save.getItem()), save.getStatus());
     }
 }
