@@ -1,6 +1,7 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.service;
 
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.ItemInfoDto;
 
 import java.util.List;
 
@@ -21,15 +22,20 @@ public interface ItemService {
     /**
      * Поулчить по ИД
      */
-    ItemDto get(Long itemId);
+    ItemInfoDto get(Long userId, Long itemId);
 
     /**
      * Получить все
      */
-    List<ItemDto> getAll(Long userId);
+    List<ItemInfoDto> getAll(Long userId);
 
     /**
      * Поиск по тексту
      */
     List<ItemDto> search(Long userId, String text);
+
+    /**
+     * Проверка доступности предмета для бронирования
+     */
+    boolean isItemAvailable(Long itemId);
 }

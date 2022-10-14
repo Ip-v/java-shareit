@@ -3,8 +3,8 @@ package ru.practicum.shareit.exceptions;
 /**
  * Объект не найден
  */
-public class ItemNotFoundException extends RuntimeException {
-    public ItemNotFoundException(String s) {
+public class NotFoundException extends RuntimeException {
+    public NotFoundException(String s) {
         super(s);
     }
 }
