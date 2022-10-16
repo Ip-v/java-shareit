@@ -45,18 +45,18 @@ create table if not exists bookings
     status     varchar(50)
 );
 
-create table if not exists requests
+create table requests
 (
     request_id   bigint generated always as identity (maxvalue 2147483647)
         constraint key_name
             primary key,
-    description  varchar,
-    requestor_id bigint not null
+    description  varchar not null,
+    requestor_id bigint  not null
         constraint requests_users_user_id_fk
             references users
-            on delete cascade
+            on delete cascade,
+    created      timestamp
 );
-
 
 create table if not exists comments
 (
