@@ -38,7 +38,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    public BookingDto create(long userId, BookingDto bookingDto) {
+    public BookingInfoDto create(long userId, BookingDto bookingDto) {
         final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден с ИД " + userId));
         final Item item = itemRepository.findById(bookingDto.getItemId())
@@ -52,8 +52,9 @@ public class BookingServiceImpl implements BookingService {
         final Booking booking = BookingMapper.toBooking(bookingDto);
         booking.setBooker(user);
         booking.setStatus(BookingStatus.WAITING);
+        booking.setItem(item);
         final Booking save = repository.save(booking);
-        return BookingMapper.toBookingDto(booking);
+        return BookingMapper.toBookingInfoDto(booking);
     }
 
     @Override

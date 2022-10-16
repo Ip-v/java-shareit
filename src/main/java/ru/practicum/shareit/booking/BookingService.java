@@ -14,7 +14,7 @@ public interface BookingService {
     /**
      * Создать новый
      */
-    BookingDto create(long userId, BookingDto bookingDto);
+    BookingInfoDto create(long userId, BookingDto bookingDto);
 
     /**
      * Обновить существующий

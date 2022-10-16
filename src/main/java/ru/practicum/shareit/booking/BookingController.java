@@ -23,7 +23,7 @@ public class BookingController {
     private final BookingService service;
 
     @PostMapping
-    public BookingDto create(@RequestHeader("X-Sharer-User-Id") long userId,
+    public BookingInfoDto create(@RequestHeader("X-Sharer-User-Id") long userId,
                              @RequestBody @Validated({Create.class}) BookingDto bookingDto) {
         log.info("Создание BookingDto {}", bookingDto);
         return service.create(userId, bookingDto);

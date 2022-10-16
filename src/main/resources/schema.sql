@@ -1,3 +1,9 @@
+drop table requests;
+drop table comments;
+drop table bookings;
+drop table items;
+drop table users;
+
 create table if not exists users
 (
     user_id    bigint generated always as identity (maxvalue 2147483647)
