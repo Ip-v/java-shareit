@@ -2,6 +2,7 @@ package ru.practicum.shareit.item.model;
 
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemInfoDto;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class ItemMapper {
                 item.getDescription(),
                 item.getIsAvailable(),
                 item.getOwner().getId(),
-                item.getRequest() != null ? item.getRequest() : null
+                item.getRequest() != null ? item.getRequest().getId() : null
         );
     }
 
@@ -34,7 +35,7 @@ public class ItemMapper {
                 itemDto.getDescription(),
                 itemDto.getAvailable(),
                 new User(itemDto.getOwner(), null, null),
-                itemDto.getRequest()
+               null
         );
     }
 
