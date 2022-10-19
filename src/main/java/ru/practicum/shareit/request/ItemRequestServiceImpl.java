@@ -5,6 +5,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.item.model.ItemMapper;
+import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.model.ItemRequestMapper;
@@ -18,9 +20,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ItemRequestServiceImpl implements ItemRequestService{
+public class ItemRequestServiceImpl implements ItemRequestService {
     private final ItemRequestRepository repository;
     private final UserRepository userRepository;
+    private final ItemRepository itemRepository;
 
     @Override
     @Transactional
@@ -36,27 +39,43 @@ public class ItemRequestServiceImpl implements ItemRequestService{
     }
 
     @Override
-    public List<ItemRequestDto> getItemRequest(long userId) {
+    public List<ItemRequestDto> findItemRequest(long userId) {
         final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден с ИД " + userId));
-        return repository
-                .findUserRequests(userId)
-                .stream()
+        List<ItemRequestDto> requests = repository.findUserRequests(userId).stream()
                 .map(ItemRequestMapper::toItemRequestDto)
                 .collect(Collectors.toList());
+        if (requests.size() > 0) {
+            for (ItemRequestDto request : requests) {
+                request.setItems(ItemMapper.toItemDtoList(itemRepository.findItemByRequestId(request.getId())));
+            }
+        }
+        return requests;
     }
 
     @Override
     public List<ItemRequestDto> getAll(long userId, PageRequest pageRequest) {
-        return repository
+        List<ItemRequestDto> requests = repository
                 .findRequests(userId, pageRequest)
                 .stream()
                 .map(ItemRequestMapper::toItemRequestDto)
                 .collect(Collectors.toList());
+        if (requests.size() > 0) {
+            for (ItemRequestDto request : requests) {
+                request.setItems(ItemMapper.toItemDtoList(itemRepository.findItemByRequestId(request.getId())));
+            }
+        }
+        return requests;
     }
 
     @Override
     public ItemRequestDto getItemRequestById(Long userId, Long requestId) {
-        return null;
+        userRepository.findById(userId).orElseThrow(() ->
+                new NotFoundException("Пользователь не найден с ИД " + userId));
+        ItemRequest request = repository.findById(requestId).orElseThrow(() ->
+                new NotFoundException("Запрос с ИД {} не найден"));
+        ItemRequestDto dto = ItemRequestMapper.toItemRequestDto(request);
+        dto.setItems(ItemMapper.toItemDtoList(itemRepository.findItemByRequestId(request.getId())));
+        return dto;
     }
 }

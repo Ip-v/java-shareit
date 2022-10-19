@@ -2,10 +2,11 @@ package ru.practicum.shareit.item.model;
 
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemInfoDto;
-import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Предмет аренды mapper
@@ -35,7 +36,7 @@ public class ItemMapper {
                 itemDto.getDescription(),
                 itemDto.getAvailable(),
                 new User(itemDto.getOwner(), null, null),
-               null
+                null
         );
     }
 
@@ -50,5 +51,9 @@ public class ItemMapper {
                 null,
                 null,
                 new ArrayList<>());
+    }
+
+    public static List<ItemDto> toItemDtoList(List<Item> items) {
+        return items.stream().map(ItemMapper::toItemDto).collect(Collectors.toList());
     }
 }

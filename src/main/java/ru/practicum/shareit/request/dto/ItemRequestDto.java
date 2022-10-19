@@ -1,6 +1,7 @@
 package ru.practicum.shareit.request.dto;
 
 import lombok.*;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.utils.Create;
 
@@ -22,5 +23,5 @@ public class ItemRequestDto {
     private String description;
     private Long requesterId;
     private LocalDateTime created;
-    private List<Item> items;
+    private List<ItemDto> items;
 }

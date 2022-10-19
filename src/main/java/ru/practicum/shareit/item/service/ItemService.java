@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.service;
 
+import org.springframework.data.domain.PageRequest;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemInfoDto;
 
@@ -27,12 +28,12 @@ public interface ItemService {
     /**
      * Получить все
      */
-    List<ItemInfoDto> getAll(Long userId);
+    List<ItemInfoDto> getAll(Long userId, PageRequest pageRequest);
 
     /**
      * Поиск по тексту
      */
-    List<ItemDto> search(Long userId, String text);
+    List<ItemDto> search(Long userId, String text, PageRequest pageRequest);
 
     /**
      * Проверка доступности предмета для бронирования

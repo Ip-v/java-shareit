@@ -21,7 +21,7 @@ public interface ItemRequestService {
      * используя указанные id вещей, можно будет получить подробную информацию о каждой вещи. Запросы должны
      * возвращаться в отсортированном порядке от более новых к более старым.
      */
-    List<ItemRequestDto> getItemRequest(long userId);
+    List<ItemRequestDto> findItemRequest(long userId);
 
     /**
      * Получить список запросов, созданных другими пользователями. С помощью этого эндпоинта пользователи смогут

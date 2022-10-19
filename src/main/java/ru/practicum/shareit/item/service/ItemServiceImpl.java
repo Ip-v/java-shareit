@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.BookingRepository;
@@ -107,11 +108,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> search(Long userId, String text) {
+    public List<ItemDto> search(Long userId, String text, PageRequest pageRequest) {
         if (text == null || text.length() == 0) {
             return new ArrayList<>();
         }
-        List<Item> searchResult = repository.search(text);
+        List<Item> searchResult = repository.search(text, pageRequest);
         return searchResult.stream().map(ItemMapper::toItemDto).collect(Collectors.toList());
     }
 
@@ -125,8 +126,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemInfoDto> getAll(Long userId) {
-        List<ItemInfoDto> items = repository.findAll().stream()
+    public List<ItemInfoDto> getAll(Long userId, PageRequest pageRequest) {
+        List<ItemInfoDto> items = repository.findAll(pageRequest).stream()
                 .filter(item -> item.getOwner().getId().equals(userId))
                 .map(ItemMapper::itemInfoDto)
                 .collect(Collectors.toList());

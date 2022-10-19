@@ -2,6 +2,8 @@ package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -9,7 +11,10 @@ import ru.practicum.shareit.booking.dto.BookingInfoDto;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.exceptions.UnknownStateException;
 import ru.practicum.shareit.utils.Create;
+import ru.practicum.shareit.utils.MyPageRequest;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
@@ -39,11 +44,15 @@ public class BookingController {
 
     @GetMapping(value = "/owner")
     public List<BookingInfoDto> getOwnerBookings(@RequestHeader("X-Sharer-User-Id") long userId,
+                                                 @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
+                                                 @Positive @RequestParam(name = "size", defaultValue = "10") Integer size,
                                                  @RequestParam(name = "state", defaultValue = "ALL") String state) {
         log.info("Запрос влдельца предметов бронирований ИД {}", userId);
         try {
             BookingStatus status = BookingStatus.valueOf(state);
-            return service.getOwnerBookings(userId, status);
+            //PageRequest pageRequest = MyPageRequest.of(from, size);
+            Pageable pageRequest = MyPageRequest.of(from, size);
+            return service.getOwnerBookings(userId, status, pageRequest);
         } catch (IllegalArgumentException e) {
             throw new UnknownStateException("Unknown state: " + state);
         }
@@ -51,11 +60,14 @@ public class BookingController {
 
     @GetMapping
     public List<BookingInfoDto> getBooking(@RequestHeader("X-Sharer-User-Id") long userId,
+                                           @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
+                                           @Positive @RequestParam(name = "size", defaultValue = "10") Integer size,
                                            @RequestParam(name = "state", defaultValue = "ALL") String state) {
         log.info("Запрос всех бронирований пользователем {}", userId);
         try {
             BookingStatus status = BookingStatus.valueOf(state);
-            return service.getAll(userId, status);
+            PageRequest pageRequest = MyPageRequest.of(from, size);
+            return service.getAll(userId, status, pageRequest);
         } catch (IllegalArgumentException e) {
             throw new UnknownStateException("Unknown state: " + state);
         }

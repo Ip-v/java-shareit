@@ -1,5 +1,7 @@
 package ru.practicum.shareit.booking;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingInfoDto;
 import ru.practicum.shareit.booking.model.BookingStatus;
@@ -29,7 +31,7 @@ public interface BookingService {
     /**
      * Получить все
      */
-    List<BookingInfoDto> getAll(Long userId, BookingStatus status);
+    List<BookingInfoDto> getAll(Long userId, BookingStatus status, PageRequest pageRequest);
 
     /**
      * Поиск по тексту
@@ -38,7 +40,7 @@ public interface BookingService {
 
     BookingInfoDto approveBooking(long userId, Long bookingId, boolean approved);
 
-    List<BookingInfoDto> getOwnerBookings(long userId, BookingStatus status);
+    List<BookingInfoDto> getOwnerBookings(long userId, BookingStatus status, Pageable pageRequest);
 
     BookingInfoDto getBookingById(Long userId, Long bookingId);
 }
