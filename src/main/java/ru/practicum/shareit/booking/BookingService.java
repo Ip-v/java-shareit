@@ -31,7 +31,7 @@ public interface BookingService {
     /**
      * Получить все
      */
-    List<BookingInfoDto> getAll(Long userId, BookingStatus status, PageRequest pageRequest);
+    List<BookingInfoDto> getAll(Long userId, BookingStatus status, Pageable pageRequest);
 
     /**
      * Поиск по тексту

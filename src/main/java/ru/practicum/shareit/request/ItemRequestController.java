@@ -3,12 +3,12 @@ package ru.practicum.shareit.request;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.utils.Create;
-import ru.practicum.shareit.utils.MyPageRequest;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -18,6 +18,7 @@ import java.util.List;
  * TODO Sprint add-item-requests.
  */
 @RequiredArgsConstructor
+@Validated
 @Slf4j
 @RestController
 @RequestMapping(path = "/requests")
@@ -42,7 +43,8 @@ public class ItemRequestController {
                                        @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                        @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
         log.info("Запроос списка запросов пользователем {} с {} по {} шт", userId, from, size);
-        PageRequest pageRequest = MyPageRequest.of(from, size, Sort.by(Sort.Order.desc("created")));
+        int page = from / size;
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("created").descending());
         return service.getAll(userId, pageRequest);
     }
 

@@ -1,6 +1,7 @@
 package ru.practicum.shareit.request;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public interface ItemRequestService {
      * от более новых к более старым. Результаты должны возвращаться постранично. Для этого нужно передать
      * два параметра: from — индекс первого элемента, начиная с 0, и size — количество элементов для отображения.
      */
-    List<ItemRequestDto> getAll(long userId, PageRequest pageRequest);
+    List<ItemRequestDto> getAll(long userId, Pageable pageRequest);
 
     /**
      *  Получить данные об одном конкретном запросе вместе с данными об ответах на него в том же формате,

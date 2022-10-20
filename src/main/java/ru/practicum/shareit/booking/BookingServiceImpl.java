@@ -91,7 +91,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingInfoDto> getAll(Long userId, BookingStatus status, PageRequest pageRequest) {
+    public List<BookingInfoDto> getAll(Long userId, BookingStatus status, Pageable pageRequest) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден с ИД " + userId));
 
@@ -128,7 +128,8 @@ public class BookingServiceImpl implements BookingService {
                         .collect(Collectors.toList());
             default:
                 return repository
-                        .findByBookerIdOrderByStartDesc(userId, pageRequest)
+                        //.findByBookerIdOrderByStartDesc(userId, pageRequest)
+                        .findAllByBookerIdOrderByStartDesc(userId, pageRequest)
                         .stream()
                         .map(BookingMapper::toBookingInfoDto)
                         .collect(Collectors.toList());

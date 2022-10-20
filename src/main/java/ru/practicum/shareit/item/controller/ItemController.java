@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,6 @@ import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemInfoDto;
 import ru.practicum.shareit.utils.Create;
-import ru.practicum.shareit.utils.MyPageRequest;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -22,6 +22,7 @@ import java.util.List;
  * Контроллер предмет араенды.
  */
 @Slf4j
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/items")
@@ -54,7 +55,8 @@ public class ItemController {
                                     @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                     @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
         log.info("Запрос списка предметов пользователем {} с {} по {} шт", userId, from, size);
-        PageRequest pageRequest = MyPageRequest.of(from, size);
+        int page = from / size;
+        Pageable pageRequest = PageRequest.of(page, size);
         return itemService.getAll(userId, pageRequest);
     }
 
@@ -63,7 +65,8 @@ public class ItemController {
                                 @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                 @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
         log.info("Поиск предметов пользователем {} по тексту {} с {} по {} шт", userId, text, from, size);
-        PageRequest pageRequest = MyPageRequest.of(from, size);
+        int page = from / size;
+        Pageable pageRequest = PageRequest.of(page, size);
         return itemService.search(userId, text, pageRequest);
     }
 

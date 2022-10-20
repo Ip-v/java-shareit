@@ -14,15 +14,17 @@ import java.util.List;
  * Репозиторий бронирований
  */
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    List<Booking> findByBookerIdOrderByStartDesc(Long userId, PageRequest pageRequest);
+//    @Query("select b from Booking b where b.booker.id = ?1")
+    List<Booking> findAllByBookerIdOrderByStartDesc(Long bookerId, Pageable pageable);
+    //List<Booking> findByBookerIdOrderByStartDesc(Long booker, PageRequest pageRequest);
 
-    List<Booking> findByBookerIdAndStartAfterOrderByStartDesc(Long userId, LocalDateTime date, PageRequest pageRequest);
+    List<Booking> findByBookerIdAndStartAfterOrderByStartDesc(Long userId, LocalDateTime date, Pageable pageRequest);
 
     List<Booking> findBookingsByBookerIdAndStatusOrderByStartDesc(Long userId, BookingStatus status,
-                                                                  PageRequest pageRequest);
+                                                                  Pageable pageRequest);
 
     List<Booking> findBookingsByBookerIdAndEndIsBeforeOrderByStartDesc(Long userId, LocalDateTime date,
-                                                                       PageRequest pageRequest);
+                                                                       Pageable pageRequest);
 
     List<Booking> findBookingsByItemIdAndEndIsBeforeOrderByEndDesc(Long id, LocalDateTime date);
 
@@ -31,7 +33,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "where us.id = ?1 " +
             "and ?2 between b.start and b.end " +
             "order by b.start DESC")
-    List<Booking> findCurrentBookingsByBooker(Long userId, LocalDateTime date, PageRequest pageRequest);
+    List<Booking> findCurrentBookingsByBooker(Long userId, LocalDateTime date, Pageable pageRequest);
 
     @Query("select b " +
             "from Booking b left join Item as i on b.item.id = i.id " +
