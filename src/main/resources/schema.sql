@@ -1,8 +1,8 @@
-drop table requests;
-drop table comments;
-drop table bookings;
-drop table items;
-drop table users;
+-- drop table requests;
+-- drop table comments;
+-- drop table bookings;
+-- drop table items;
+-- drop table users;
 
 create table if not exists users
 (
