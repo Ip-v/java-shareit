@@ -32,11 +32,6 @@ public interface BookingService {
      */
     List<BookingInfoDto> getAll(Long userId, BookingStatus status, Pageable pageRequest);
 
-    /**
-     * Поиск по тексту
-     */
-    List<BookingDto> search(Long userId, String text);
-
     BookingInfoDto approveBooking(long userId, Long bookingId, boolean approved);
 
     List<BookingInfoDto> getOwnerBookings(long userId, BookingStatus status, Pageable pageRequest);

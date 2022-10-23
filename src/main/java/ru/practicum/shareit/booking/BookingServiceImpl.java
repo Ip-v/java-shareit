@@ -21,7 +21,6 @@ import ru.practicum.shareit.user.model.User;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ru.practicum.shareit.booking.dto.BookingInfoDto.*;
@@ -63,7 +62,8 @@ public class BookingServiceImpl implements BookingService {
     public BookingDto update(long userId, Long itemId, BookingDto bookingDto) {
         final User booker = userRepository.findById(bookingDto.getBookerId()).orElseThrow(() ->
                 new NotFoundException("Пользователь не найден с ИД " + userId));
-        Booking booking = BookingMapper.toBooking(get(bookingDto.getId()));
+        Booking booking = repository.findById(bookingDto.getId()).orElseThrow(() ->
+                new NotFoundException("Бронирование не найдено с ИД " + bookingDto.getId()));
         if (bookingDto.getStart() != null) {
             booking.setStart(bookingDto.getStart());
         }
@@ -82,11 +82,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDto get(Long bookingId) {
-        Optional<Booking> booking = repository.findById(bookingId);
-        if (booking.isEmpty()) {
-            throw new NotFoundException("Бронирование не найдено ID " + bookingId);
-        }
-        return BookingMapper.toBookingDto(booking.get());
+        Booking booking = repository.findById(bookingId).orElseThrow(() ->
+                new NotFoundException("Бронирование не найдено ID " + bookingId));
+        return BookingMapper.toBookingDto(booking);
     }
 
     @Override
@@ -127,17 +125,11 @@ public class BookingServiceImpl implements BookingService {
                         .collect(Collectors.toList());
             default:
                 return repository
-                        //.findByBookerIdOrderByStartDesc(userId, pageRequest)
                         .findAllByBookerIdOrderByStartDesc(userId, pageRequest)
                         .stream()
                         .map(BookingMapper::toBookingInfoDto)
                         .collect(Collectors.toList());
         }
-    }
-
-    @Override
-    public List<BookingDto> search(Long userId, String text) {
-        return null;
     }
 
     @Override
@@ -154,8 +146,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingInfoDto> getOwnerBookings(long userId, BookingStatus status, Pageable pageRequest) {
         userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(
-                        String.format("Пользователь %s не найден.", userId)));
+                .orElseThrow(() -> new NotFoundException(String.format("Пользователь %s не найден.", userId)));
         List<BookingInfoDto> userBookings = repository.searchBookingByItemOwnerId(userId, pageRequest)
                 .stream()
                 .map(BookingMapper::toBookingInfoDto)

@@ -54,8 +54,8 @@ public class ItemServiceImpl implements ItemService {
         if (itemDto.getRequestId() != null) {
             ItemRequest itemRequest = itemRequestRepository
                     .findById(itemDto.getRequestId())
-                    .orElseThrow(() -> new NotFoundException("Запрос предмета с ИД {} не найден"
-                            + itemDto.getRequestId()));
+                    .orElseThrow(() -> new NotFoundException("Запрос предмета с ИД не найден " +
+                            itemDto.getRequestId()));
             item.setRequest(itemRequest);
         }
         final Item save = repository.save(item);

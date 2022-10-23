@@ -13,7 +13,6 @@ import java.util.List;
  * Репозиторий бронирований
  */
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-//    @Query("select b from Booking b where b.booker.id = ?1")
     List<Booking> findAllByBookerIdOrderByStartDesc(Long bookerId, Pageable pageable);
     //List<Booking> findByBookerIdOrderByStartDesc(Long booker, PageRequest pageRequest);
 

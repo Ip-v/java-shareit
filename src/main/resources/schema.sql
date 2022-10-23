@@ -45,7 +45,7 @@ create table if not exists bookings
     status     varchar(50)
 );
 
-create table requests
+create table if not exists requests
 (
     request_id   bigint generated always as identity (maxvalue 2147483647)
         constraint key_name
