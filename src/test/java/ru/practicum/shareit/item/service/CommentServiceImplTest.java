@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
+import ru.practicum.shareit.exceptions.CommentAccessDeniedException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.model.Comment;
@@ -71,6 +72,16 @@ class CommentServiceImplTest {
         CommentDto serviceComment = service.createComment(commentDto, 1L, 1L);
         assertNotNull(serviceComment);
         assertEquals(commentDto.getText(), serviceComment.getText());
+    }
+
+    @Test
+    void createCommentDeniedWhenBookingApproved() {
+        booking.setStatus(BookingStatus.WAITING);
+        when(bookingRepository.searchBookingByBookerIdAndItemIdAndEndIsBefore(anyLong(), anyLong(), any()))
+                .thenReturn(List.of(booking));
+
+        assertThrows(CommentAccessDeniedException.class,
+                () -> service.createComment(commentDto, 1L, -1L));
     }
 
     @Test
