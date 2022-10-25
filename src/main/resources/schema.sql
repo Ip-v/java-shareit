@@ -1,9 +1,3 @@
--- drop table requests;
--- drop table comments;
--- drop table bookings;
--- drop table items;
--- drop table users;
-
 create table if not exists users
 (
     user_id    bigint generated always as identity (maxvalue 2147483647)
@@ -37,8 +31,7 @@ create table if not exists bookings
     end_date   timestamp,
     item_id    bigint not null
         constraint bookings_items_item_id_fk
-            references items
-            on delete cascade,
+            references items on delete cascade,
     booker_id  bigint not null
         constraint foreign_key_name
             references users,

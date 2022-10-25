@@ -47,14 +47,12 @@ class ItemControllerTest {
 
     User user = new User(1L, "owner", "owner@mail.ru");
     Item item = new Item(1L, "name", "description", true, user, null);
+    ItemDto itemDto = ItemMapper.toItemDto(item);
+    ItemInfoDto itemInfoDto = ItemMapper.itemInfoDto(item);
     User commentator = new User(2L, "commentator", "commentator@mail.ru");
     Comment comment = new Comment(1L, "comment", item, commentator,
             LocalDateTime.of(2022, Month.OCTOBER, 22, 11, 11, 11));
     CommentDto commentDto = CommentMapper.toCommentDto(comment);
-    ItemDto itemDto = ItemMapper.toItemDto(item);
-
-    ItemInfoDto itemInfoDto = ItemMapper.itemInfoDto(item);
-
 
     @Test
     void create() throws Exception {

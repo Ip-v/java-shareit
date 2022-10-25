@@ -10,7 +10,6 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
-import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.model.User;
 
@@ -47,7 +46,7 @@ class BookingRepositoryTest {
 
     @Test
     void findCurrentBookingsByOwnerTest() {
-        final List<Booking> list = bookingRepository.findCurrentBookingsByOwner(1L, LocalDateTime.now(),
+        final List<Booking> list = bookingRepository.findCurrentBookingsByOwner(owner.getId(), LocalDateTime.now(),
                 Pageable.unpaged());
 
         assertEquals(booking.getBooker().getId(), list.get(0).getBooker().getId());
