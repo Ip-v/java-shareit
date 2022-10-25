@@ -3,6 +3,7 @@ package ru.practicum.shareit.user.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Класс пользователей
@@ -23,6 +24,11 @@ public class User {
     private String name;
     @Column(name = "user_email")
     private String email;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     @Override
     public boolean equals(Object o) {
