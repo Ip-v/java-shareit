@@ -95,10 +95,43 @@ class BookingServiceImplTest {
     }
 
     @Test
-    void update() {
+    void updateTest() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(repository.findById(anyLong())).thenReturn(Optional.of(booking));
         when(repository.save(any())).thenReturn(booking);
+
+        BookingDto dto = service.update(2L, 1L, bookingDto);
+        assertEquals(booking.getId(), dto.getId());
+    }
+
+    @Test
+    void updateWhenDtoUserNotFound() {
+        when(userRepository.findById(any())).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(NotFoundException.class, () ->
+                service.update(1L, 1L, bookingDto));
+        assertEquals("Пользователь не найден с ИД 1", exception.getMessage());
+    }
+
+    @Test
+    void updateWhenBookingNotFound() {
+        when(userRepository.findById(any())).thenReturn(Optional.of(user));
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(NotFoundException.class, () ->
+                service.update(1L, 1L, bookingDto));
+        assertEquals("Бронирование не найдено с ИД 1", exception.getMessage());
+    }
+
+    @Test
+    void updateWhenAllFieldsAreNull() {
+        when(userRepository.findById(any())).thenReturn(Optional.of(user));
+        when(repository.findById(anyLong())).thenReturn(Optional.of(booking));
+        when(repository.save(any())).thenReturn(booking);
+        bookingDto.setStart(null);
+        bookingDto.setEnd(null);
+        bookingDto.setBookerId(null);
+        bookingDto.setStatus(null);
 
         BookingDto dto = service.update(2L, 1L, bookingDto);
         assertEquals(booking.getId(), dto.getId());

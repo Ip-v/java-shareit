@@ -2,6 +2,7 @@ package ru.practicum.shareit.item.model;
 
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemInfoDto;
+import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.ArrayList;
@@ -17,6 +18,20 @@ public class ItemMapper {
      */
     public static ItemDto toItemDto(Item item) {
         return new ItemDto(
+                item.getId(),
+                item.getName(),
+                item.getDescription(),
+                item.getIsAvailable(),
+                item.getOwner().getId(),
+                item.getRequest() != null ? item.getRequest().getId() : null
+        );
+    }
+
+    /**
+     * Item -> ItemRequestDto.ItemInfoRequestDto
+     */
+    public static ItemRequestDto.ItemInfoRequestDto toItemRequestInfoDto(Item item) {
+        return new ItemRequestDto.ItemInfoRequestDto(
                 item.getId(),
                 item.getName(),
                 item.getDescription(),
@@ -43,7 +58,7 @@ public class ItemMapper {
     /**
      * Item -> ItemInfoDto
      */
-    public static ItemInfoDto itemInfoDto(Item item) {
+    public static ItemInfoDto toItemInfoDto(Item item) {
         return new ItemInfoDto(item.getId(),
                 item.getName(),
                 item.getDescription(),
@@ -53,7 +68,7 @@ public class ItemMapper {
                 new ArrayList<>());
     }
 
-    public static List<ItemDto> toItemDtoList(List<Item> items) {
-        return items.stream().map(ItemMapper::toItemDto).collect(Collectors.toList());
+    public static List<ItemRequestDto.ItemInfoRequestDto> toItemDtoList(List<Item> items) {
+        return items.stream().map(ItemMapper::toItemRequestInfoDto).collect(Collectors.toList());
     }
 }

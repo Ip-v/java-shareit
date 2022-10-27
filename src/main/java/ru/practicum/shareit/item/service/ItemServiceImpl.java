@@ -8,14 +8,14 @@ import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exceptions.ItemAccessDeniedException;
 import ru.practicum.shareit.exceptions.NotFoundException;
-import ru.practicum.shareit.item.repository.CommentRepository;
-import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemInfoDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.CommentMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.ItemMapper;
+import ru.practicum.shareit.item.repository.CommentRepository;
+import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.request.ItemRequestRepository;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.UserService;
@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static ru.practicum.shareit.item.dto.ItemInfoDto.*;
+import static ru.practicum.shareit.item.dto.ItemInfoDto.BookingInfo;
 
 /**
  * Сервис предметов
@@ -92,7 +92,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemInfoDto get(Long userId, Long itemId) {
         Item item = repository.findById(itemId).orElseThrow(() ->
                 new NotFoundException("Предмет не найден ИД " + itemId));
-        ItemInfoDto itemInfoDto = ItemMapper.itemInfoDto(item);
+        ItemInfoDto itemInfoDto = ItemMapper.toItemInfoDto(item);
         if (item.getOwner().getId().equals(userId)) {
             addBookingsDates(itemInfoDto);
         }
@@ -129,7 +129,7 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemInfoDto> getAll(Long userId, Pageable pageRequest) {
         List<ItemInfoDto> items = repository.findAll(pageRequest).stream()
                 .filter(item -> item.getOwner().getId().equals(userId))
-                .map(ItemMapper::itemInfoDto)
+                .map(ItemMapper::toItemInfoDto)
                 .collect(Collectors.toList());
         for (ItemInfoDto i : items) {
             addBookingsDates(i);
