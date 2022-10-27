@@ -63,8 +63,8 @@ public class UserService {
         if (userDto.getEmail() != null && !userDto.getEmail().isBlank()) {
             u.setEmail(userDto.getEmail());
         }
-        repository.save(u);
-        return UserMapper.toUserDto(u);
+        User save = repository.save(u);
+        return UserMapper.toUserDto(save);
     }
 
     /**

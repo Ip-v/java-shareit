@@ -31,8 +31,7 @@ create table if not exists bookings
     end_date   timestamp,
     item_id    bigint not null
         constraint bookings_items_item_id_fk
-            references items
-            on delete cascade,
+            references items on delete cascade,
     booker_id  bigint not null
         constraint foreign_key_name
             references users,
@@ -44,13 +43,13 @@ create table if not exists requests
     request_id   bigint generated always as identity (maxvalue 2147483647)
         constraint key_name
             primary key,
-    description  varchar,
-    requestor_id bigint not null
+    description  varchar not null,
+    requestor_id bigint  not null
         constraint requests_users_user_id_fk
             references users
-            on delete cascade
+            on delete cascade,
+    created      timestamp
 );
-
 
 create table if not exists comments
 (

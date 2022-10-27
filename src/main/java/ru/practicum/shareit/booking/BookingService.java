@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import org.springframework.data.domain.Pageable;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingInfoDto;
 import ru.practicum.shareit.booking.model.BookingStatus;
@@ -14,7 +15,7 @@ public interface BookingService {
     /**
      * Создать новый
      */
-    BookingDto create(long userId, BookingDto bookingDto);
+    BookingInfoDto create(long userId, BookingDto bookingDto);
 
     /**
      * Обновить существующий
@@ -29,16 +30,11 @@ public interface BookingService {
     /**
      * Получить все
      */
-    List<BookingInfoDto> getAll(Long userId, BookingStatus status);
-
-    /**
-     * Поиск по тексту
-     */
-    List<BookingDto> search(Long userId, String text);
+    List<BookingInfoDto> getAll(Long userId, BookingStatus status, Pageable pageRequest);
 
     BookingInfoDto approveBooking(long userId, Long bookingId, boolean approved);
 
-    List<BookingInfoDto> getOwnerBookings(long userId, BookingStatus status);
+    List<BookingInfoDto> getOwnerBookings(long userId, BookingStatus status, Pageable pageRequest);
 
     BookingInfoDto getBookingById(Long userId, Long bookingId);
 }
