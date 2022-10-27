@@ -27,16 +27,16 @@ import static org.mockito.Mockito.*;
 class ItemRequestServiceImplTest {
 
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Mock
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
     @Mock
-    ItemRequestRepository repository;
+    private ItemRequestRepository repository;
     @InjectMocks
-    ItemRequestServiceImpl service;
-    ItemRequestDto itemRequestDto;
-    User user;
-    ItemRequest itemRequest;
+    private ItemRequestServiceImpl service;
+    private ItemRequestDto itemRequestDto;
+    private User user;
+    private ItemRequest itemRequest;
 
     @BeforeEach
     void beforeEach() {

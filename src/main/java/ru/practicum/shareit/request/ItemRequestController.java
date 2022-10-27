@@ -15,7 +15,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
- * TODO Sprint add-item-requests.
+ * Контроллер запросов предметов
  */
 @RequiredArgsConstructor
 @Validated

@@ -22,21 +22,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class ItemRepositoryTest {
 
     @Autowired
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    ItemRequestRepository itemRequestRepository;
+    private ItemRequestRepository itemRequestRepository;
 
-    Item item;
-    ItemRequest request;
-    User user;
-    User user2;
+    private Item item;
+    private ItemRequest request;
 
     @BeforeEach
     void beforeEach() {
-        user = userRepository.save(new User(1L, "user", "user@mail.ru"));
-        user2 = userRepository.save(new User(2L, "user2", "user2@mail.ru"));
+        User user = userRepository.save(new User(1L, "user", "user@mail.ru"));
+        User user2 = userRepository.save(new User(2L, "user2", "user2@mail.ru"));
         request = itemRequestRepository.save(new ItemRequest(333L, "request description", user2,
                 LocalDateTime.now()));
         item = itemRepository.save(new Item(1L, "name", "description", true, user, request));
@@ -59,7 +57,7 @@ class ItemRepositoryTest {
 
     @Test
     void findItemByRequestId() {
-        final List<Item> list = itemRepository.findItemByRequestId(2L);
+        final List<Item> list = itemRepository.findItemByRequestId(request.getId());
 
         assertNotNull(list);
         assertEquals(item.getDescription(), list.get(0).getDescription());

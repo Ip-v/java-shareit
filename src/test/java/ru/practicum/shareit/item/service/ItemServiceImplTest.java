@@ -12,11 +12,9 @@ import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.exceptions.NotFoundException;
-import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemInfoDto;
 import ru.practicum.shareit.item.model.Comment;
-import ru.practicum.shareit.item.model.CommentMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.ItemMapper;
 import ru.practicum.shareit.item.repository.CommentRepository;
@@ -35,49 +33,45 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ItemServiceImplTest {
     @Mock
-    ItemRepository repository;
+    private ItemRepository repository;
     @Mock
-    UserService userService;
+    private UserService userService;
     @Mock
-    BookingRepository bookingRepository;
+    private BookingRepository bookingRepository;
     @Mock
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
     @Mock
-    ItemRequestRepository itemRequestRepository;
+    private ItemRequestRepository itemRequestRepository;
     @InjectMocks
-    ItemServiceImpl service;
+    private ItemServiceImpl service;
 
-    User user;
-    User user2;
-    UserDto userDto;
-    User commentator;
-    ItemRequest request;
-    Item itemWithRequest;
-    Item item;
-    Item updated;
-    Comment comment;
-    CommentDto commentDto;
-    Booking lastBooking;
+    private UserDto userDto;
+    private ItemRequest request;
+    private Item itemWithRequest;
+    private Item item;
+    private Item updated;
+    private Comment comment;
+    private Booking lastBooking;
 
     @BeforeEach
     void beforeAll() {
-        user = new User(1L, "user", "user@mail.ru");
-        user2 = new User(2L, "user2", "user2@mail.ru");
+        User user = new User(1L, "user", "user@mail.ru");
+        User user2 = new User(2L, "user2", "user2@mail.ru");
         userDto = UserMapper.toUserDto(user);
-        commentator = new User(2L, "commentator", "commentator@mail.ru");
+        User commentator = new User(2L, "commentator", "commentator@mail.ru");
         request = new ItemRequest(333L, "request description", user2, LocalDateTime.now());
         itemWithRequest = new Item(1L, "name", "description", true, user, request);
         item = new Item(1L, "name", "description", true, user, null);
         updated = new Item(1L, "updated name", "updated description", true, user, null);
         comment = new Comment(1L, "comment", item, commentator,
                 LocalDateTime.of(2022, Month.OCTOBER, 22, 11, 11, 11));
-        commentDto = CommentMapper.toCommentDto(comment);
         lastBooking = new Booking(1L, LocalDateTime.now(), LocalDateTime.MAX,
                 item, user2, BookingStatus.APPROVED);
     }

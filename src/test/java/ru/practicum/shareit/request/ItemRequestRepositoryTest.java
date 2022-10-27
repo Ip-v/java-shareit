@@ -11,23 +11,22 @@ import ru.practicum.shareit.user.model.User;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 class ItemRequestRepositoryTest {
     @Autowired
-    ItemRequestRepository repository;
+    private ItemRequestRepository repository;
     @Autowired
-    UserRepository userRepository;
-    User user;
-    ItemRequest itemRequest;
-    User user2;
-    ItemRequest itemRequest2;
+    private UserRepository userRepository;
+    private User user;
+    private ItemRequest itemRequest;
+    private ItemRequest itemRequest2;
 
     @BeforeEach
     void beforeEach() {
         user = userRepository.save(new User(1L, "user", "user@mail.ru"));
-        user2 = userRepository.save(new User(2L, "user2", "user2@mail.ru"));
+        User user2 = userRepository.save(new User(2L, "user2", "user2@mail.ru"));
         itemRequest = repository.save(new ItemRequest(1L, "request description", user, null));
         itemRequest2 = repository.save(new ItemRequest(2L, "request description", user2, null));
     }

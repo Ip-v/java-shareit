@@ -32,22 +32,22 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class CommentServiceImplTest {
     @Mock
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Mock
-    BookingRepository bookingRepository;
+    private BookingRepository bookingRepository;
     @Mock
-    CommentRepository repository;
+    private CommentRepository repository;
 
     @InjectMocks
-    CommentServiceImpl service;
+    private CommentServiceImpl service;
 
-    User user;
-    Item item;
-    Booking booking;
-    CommentDto commentDto;
-    Comment comment;
+    private User user;
+    private Item item;
+    private Booking booking;
+    private CommentDto commentDto;
+    private Comment comment;
 
     @BeforeEach
     void beforeEach() {

@@ -16,29 +16,24 @@ import ru.practicum.shareit.user.model.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 class BookingRepositoryTest {
     @Autowired
-    BookingRepository bookingRepository;
+    private BookingRepository bookingRepository;
     @Autowired
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
     @Autowired
-    UserRepository userRepository;
-
-    Item item;
-    User owner;
-    User booker;
-    Booking booking;
+    private UserRepository userRepository;
+    private User owner;
+    private Booking booking;
 
     @BeforeEach
     void beforeEach() {
         owner = userRepository.save(new User(1L, "user", "user@mail.ru"));
-        booker = userRepository.save(new User(2L, "user2", "user2@mail.ru"));
-//        request = itemRequestRepository.save(new ItemRequest(333L, "request description", user2,
-//                LocalDateTime.now()));
-        item = itemRepository.save(new Item(1L, "name", "description", true, owner,
+        User booker = userRepository.save(new User(2L, "user2", "user2@mail.ru"));
+        Item item = itemRepository.save(new Item(1L, "name", "description", true, owner,
                 null));
         booking = bookingRepository.save(new Booking(1L, LocalDateTime.now().minusMinutes(10),
                 LocalDateTime.now().plusMinutes(10), item, booker, BookingStatus.WAITING));

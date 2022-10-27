@@ -33,34 +33,29 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class BookingServiceImplTest {
     @Mock
-    BookingRepository repository;
+    private BookingRepository repository;
     @Mock
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @InjectMocks
-    BookingServiceImpl service;
-    User user;
-    Item item;
-    BookingInfoDto.ItemInfo itemInfo;
-    BookingInfoDto bookingInfoDto;
-    BookingDto bookingDto;
-    Booking booking;
-    Booking bookingCurrent;
-    Booking bookingPast;
-    Booking bookingFuture;
-    Booking bookingWaiting;
-    Booking bookingRejected;
+    private BookingServiceImpl service;
+    private User user;
+    private Item item;
+    private BookingDto bookingDto;
+    private Booking booking;
+    private Booking bookingCurrent;
+    private Booking bookingPast;
+    private Booking bookingFuture;
+    private Booking bookingWaiting;
+    private Booking bookingRejected;
 
     @BeforeEach
     void beforeEach() {
         user = new User(1L, "user", "user@mail.ru");
         item = new Item(1L, "name", "description", true, user, null);
-        itemInfo = new BookingInfoDto.ItemInfo(item);
         booking = new Booking(1L, LocalDateTime.now().plusMinutes(10), LocalDateTime.MAX, item, user,
                 BookingStatus.WAITING);
-        bookingInfoDto = new BookingInfoDto(1L, LocalDateTime.now().plusMinutes(10), LocalDateTime.MAX, user,
-                itemInfo, BookingStatus.WAITING);
         bookingDto = new BookingDto(1L, LocalDateTime.now().plusMinutes(10), LocalDateTime.MAX, 1L,
                 1L, BookingStatus.WAITING);
 
