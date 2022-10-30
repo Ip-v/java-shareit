@@ -114,10 +114,10 @@ class BookingControllerTest {
 
         mockMvc.perform(get("/bookings/")
                         .header("X-Sharer-User-Id", 1L)
-                        .param("state", "WRONG")
+                        .param("state", "ALL")
                         .param("from", "")
                         .param("size", ""))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().isOk());
     }
 
     @Test

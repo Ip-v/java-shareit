@@ -15,36 +15,6 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
-//    /**
-//     * Не найдено
-//     */
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    public ErrorResponse notFound(final NotFoundException e) {
-//        log.warn(e.getMessage());
-//        return new ErrorResponse(e.getMessage());
-//    }
-//
-//    /**
-//     * Нет доступа
-//     */
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    public ErrorResponse accessDenied(final ItemAccessDeniedException e) {
-//        log.warn(e.getMessage());
-//        return new ErrorResponse(e.getMessage());
-//    }
-//
-//    /**
-//     * Нет доступа
-//     */
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse accessDenied(final CommentAccessDeniedException e) {
-//        log.warn(e.getMessage());
-//        return new ErrorResponse(e.getMessage());
-//    }
-//
     /**
      * Ошибка валидации
      */
@@ -64,26 +34,6 @@ public class ErrorHandler {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
-//
-//    /**
-//     * Нет доступа
-//     */
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse accessDenied(final BookingChangeStatusAfterApproveException e) {
-//        log.warn(e.getMessage());
-//        return new ErrorResponse(e.getMessage());
-//    }
-//
-//    /**
-//     * Нет доступа
-//     */
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse bookingNotAvailable(final ItemNotAvailableException e) {
-//        log.warn(e.getMessage());
-//        return new ErrorResponse(e.getMessage());
-//    }
 
     /**
      * Неверный статус

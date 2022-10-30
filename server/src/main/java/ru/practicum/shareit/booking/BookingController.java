@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingInfoDto;
 import ru.practicum.shareit.booking.model.BookingStatus;
-import ru.practicum.shareit.exceptions.UnknownStateException;
 import ru.practicum.shareit.utils.Create;
 
 import java.util.List;
@@ -47,14 +46,11 @@ public class BookingController {
                                                  @RequestParam(name = "size", defaultValue = "10") Integer size,
                                                  @RequestParam(name = "state", defaultValue = "ALL") String state) {
         log.info("Запрос влдельца предметов бронирований ИД {}", userId);
-        try {
-            BookingStatus status = BookingStatus.valueOf(state);
-            int page = from / size;
-            Pageable pageRequest = PageRequest.of(page, size, Sort.by("start").descending());
-            return service.getOwnerBookings(userId, status, pageRequest);
-        } catch (IllegalArgumentException e) {
-            throw new UnknownStateException("Unknown state: " + state);
-        }
+
+        BookingStatus status = BookingStatus.valueOf(state);
+        int page = from / size;
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("start").descending());
+        return service.getOwnerBookings(userId, status, pageRequest);
     }
 
     @GetMapping
@@ -63,14 +59,11 @@ public class BookingController {
                                            @RequestParam(name = "size", defaultValue = "10") Integer size,
                                            @RequestParam(name = "state", defaultValue = "ALL") String state) {
         log.info("Запрос всех бронирований пользователем {}", userId);
-        try {
-            BookingStatus status = BookingStatus.valueOf(state);
-            int page = from / size;
-            Pageable pageRequest = PageRequest.of(page, size, Sort.by("start").descending());
-            return service.getAll(userId, status, pageRequest);
-        } catch (IllegalArgumentException e) {
-            throw new UnknownStateException("Unknown state: " + state);
-        }
+
+        BookingStatus status = BookingStatus.valueOf(state);
+        int page = from / size;
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("start").descending());
+        return service.getAll(userId, status, pageRequest);
     }
 
     @GetMapping("/{bookingId}")

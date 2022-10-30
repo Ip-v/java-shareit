@@ -72,14 +72,4 @@ public class ErrorHandler {
         log.warn(e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
-
-    /**
-     * Неверный статус
-     */
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse unsupportedStatus(final UnknownStateException e) {
-        log.warn(e.getMessage());
-        return new ErrorResponse("Unknown state: UNSUPPORTED_STATUS");
-    }
 }

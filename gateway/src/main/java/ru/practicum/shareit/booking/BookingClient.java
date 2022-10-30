@@ -13,6 +13,9 @@ import ru.practicum.shareit.client.BaseClient;
 
 import java.util.Map;
 
+/**
+ * Клиент бронирований
+ */
 @Service
 public class BookingClient extends BaseClient {
     private static final String API_PREFIX = "/bookings";
