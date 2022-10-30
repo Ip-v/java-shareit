@@ -31,4 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/resources/commands.sql
+/server/src/main/resources/commands.sql
+/postman/
